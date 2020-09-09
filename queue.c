@@ -81,9 +81,12 @@ bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
  */
 int q_size(queue_t *q)
 {
+<<<<<<< HEAD
     if (!q) {
         return 0;
     }
+=======
+>>>>>>> d832eb3... Change q_size return value to q->size
     return q->size;
 }
 
