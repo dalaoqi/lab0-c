@@ -156,13 +156,12 @@ void q_reverse(queue_t *q)
     }
     list_ele_t *tmp = NULL;
     q->tail->next = q->head;
-    while (tmp != q->tail) {
+    while (q->head->next != q->tail) {
         tmp = q->head->next;
         q->head->next = tmp->next;
         tmp->next = q->tail->next;
         q->tail->next = tmp;
     }
-    tmp->next = q->tail->next;
     q->tail = q->head;
     q->tail->next = NULL;
     q->head = tmp;
