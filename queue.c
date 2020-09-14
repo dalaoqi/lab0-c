@@ -150,7 +150,7 @@ int q_size(queue_t *q)
  */
 void q_reverse(queue_t *q)
 {
-    if (!q || !q->head) {
+    if (!q || !q->head || q->size == 1) {
         return;
     }
     list_ele_t *tmp = q->head->next;
@@ -182,7 +182,7 @@ list_ele_t *merge(list_ele_t *l1, list_ele_t *l2)
         l1->next = merge(l1->next, l2);
         return l1;
     } else {
-        l2->next = merge(l1->next, l1);
+        l2->next = merge(l1, l2->next);
         return l2;
     }
 }
