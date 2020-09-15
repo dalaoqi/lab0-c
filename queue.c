@@ -170,7 +170,6 @@ void q_reverse(queue_t *q)
 void MoveNode(list_ele_t **destRef, list_ele_t **sourceRef)
 {
     list_ele_t *newNode = *sourceRef;
-    assert(newNode);
     *sourceRef = newNode->next;
     newNode->next = *destRef;
     *destRef = newNode;
