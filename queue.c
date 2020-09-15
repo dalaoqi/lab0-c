@@ -166,29 +166,42 @@ void q_reverse(queue_t *q)
     q->head = tmp;
     return;
 }
+
+void MoveNode(list_ele_t **destRef, list_ele_t **sourceRef)
+{
+    list_ele_t *newNode = *sourceRef;
+    assert(newNode);
+    *sourceRef = newNode->next;
+    newNode->next = *destRef;
+    *destRef = newNode;
+}
+
 list_ele_t *merge(list_ele_t *l1, list_ele_t *l2)
 {
-    if (!l1) {
-        return l2;
+    list_ele_t *result = NULL;
+    list_ele_t **lastPtrRef = &result;
+    while (1) {
+        if (!l1) {
+            *lastPtrRef = l2;
+            break;
+        } else if (!l2) {
+            *lastPtrRef = l1;
+            break;
+        }
+        if (strcmp(l1->value, l2->value) <= 0) {
+            MoveNode(lastPtrRef, &l1);
+        } else {
+            MoveNode(lastPtrRef, &l2);
+        }
+        lastPtrRef = &((*lastPtrRef)->next);
     }
-    if (!l2) {
-        return l1;
-    }
-    size_t len_l1 = strlen(l1->value), len_l2 = strlen(l2->value);
-    if (len_l1 < len_l2) {
-        len_l1 = len_l2;
-    }
-    if (strncmp(l1->value, l2->value, len_l1) <= 0) {
-        l1->next = merge(l1->next, l2);
-        return l1;
-    } else {
-        l2->next = merge(l1, l2->next);
-        return l2;
-    }
+    return result;
 }
+
 /*
  * mergeSort for q_sort()
  */
+
 list_ele_t *merge_sort(list_ele_t *head)
 {
     if (!head || !head->next) {
@@ -206,6 +219,7 @@ list_ele_t *merge_sort(list_ele_t *head)
     list_ele_t *l2 = merge_sort(fast);
     return merge(l1, l2);
 }
+
 /*
  * Sort elements of queue in ascending order
  * No effect if q is NULL or empty. In addition, if q has only one
